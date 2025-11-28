@@ -1,0 +1,12 @@
+introspection_url = http://keycloak.f88.lab:8080/realms/mailrealm/protocol/openid-connect/token/introspect
+introspection_mode = post
+client_id = roundcube-client
+client_secret = HAJUZ2j8CANTiePuzuLOxX9BWvh4DGib
+username_attribute = preferred_username
+pass_attrs = pass=%{oauth2:access_token}
+active_attribute = active
+active_value = 
+use_grant_password = no
+scope = openid email profile roles offline_access
+tls_ca_cert_file = /usr/local/share/ca-certificates/ad-ca.crt
+debug = yes

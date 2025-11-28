@@ -1,0 +1,105 @@
+# See /usr/share/postfix/main.cf.dist for a commented, more complete version
+
+
+# Debian specific:  Specifying a file name will cause the first
+# line of that file to be used as the name.  The Debian default
+# is /etc/mailname.
+#myorigin = /etc/mailname
+
+smtpd_banner = $myhostname ESMTP $mail_name
+biff = no
+
+
+# appending .domain is the MUA's job.
+append_dot_mydomain = no
+
+# Uncomment the next line to generate "delayed mail" warnings
+#delay_warning_time = 4h
+
+readme_directory = no
+
+# See http://www.postfix.org/COMPATIBILITY_README.html -- default to 3.6 on
+# fresh installs.
+compatibility_level = 3.6
+
+mydomain = f88.local
+myhostname = f88.local
+mydestination = localhost, $myhostname, $mydomain
+mynetworks = 0.0.0.0/0
+alias_maps = hash:/etc/postfix/aliases
+alias_database = hash:/etc/postfix/aliases
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+inet_protocols = all
+mynetworks_style = subnet
+message_size_limit = 20480000
+
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = inet:imap-local.f88.lab:12345
+smtpd_sasl_auth_enable = yes
+broken_sasl_auth_clients = yes
+smtpd_sasl_security_options = noanonymous, noplaintext
+smtpd_sasl_tls_security_options = noanonymous
+smtpd_sasl_local_domain =
+smtpd_sasl_authenticated_header = yes
+
+broken_sasl_auth_clients = yes
+
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtpd_tls_loglevel = 1
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+smtpd_tls_cert_file=/etc/ssl/certs/STAR_f88_co.pem
+smtpd_tls_key_file=/etc/ssl/certs/private.key
+smtpd_use_tls=yes
+smtpd_tls_auth_only = yes
+smtp_tls_security_level = may
+smtpd_tls_security_level = may
+local_recipient_maps = 
+
+unknown_local_recipient_reject_code = 450
+maximal_queue_lifetime = 7d
+minimal_backoff_time = 1000s
+maximal_backoff_time = 8000s
+smtp_helo_timeout = 60s
+smtpd_recipient_limit = 25
+smtpd_error_sleep_time = 1s
+smtpd_soft_error_limit = 3
+smtpd_hard_error_limit = 12
+smtpd_delay_reject = yes
+disable_vrfy_command = yes
+
+home_mailbox = 
+
+smtpd_helo_required = yes
+
+smtp_destination_concurrency_limit = 500
+smtpd_delay_reject = yes
+default_destination_recipient_limit = 500
+
+virtual_transport = lmtp:172.17.1.11:24
+mailbox_transport = lmtp:172.17.1.11:24
+
+dovecot_destination_recipient_limit = 1
+
+smtpd_recipient_restrictions = permit_mynetworks, reject
+smtpd_relay_restrictions = permit_mynetworks, reject
+#smtpd_sender_restrictions =  reject_unknown_sender_domain, reject_authenticated_sender_login_mismatch, check_sender_access
+smtpd_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd
+
+virtual_minimum_uid = 5000
+virtual_uid_maps = static:5000
+virtual_gid_maps = static:5000
+virtual_mailbox_base = /data/vmail
+virtual_mailbox_domains = f88.local
+virtual_mailbox_maps = ldap:/etc/postfix/ldap_virtual_mailbox_maps.cf
+#smtpd_sender_login_maps = ldap:/etc/postfix/ldap_sender_login_maps.cf
+#virtual_alias_maps = ldap:/etc/postfix/ldap_virtual_alias_maps.cf
+
+queue_directory = /var/spool/postfix
+
+header_checks = regexp:/etc/postfix/header_checks
+mime_header_checks = regexp:/etc/postfix/mime_header_checks
+enable_original_recipient = no
+body_checks = regexp:/etc/postfix/body_checks
+default_process_limit = 200

@@ -1,0 +1,8 @@
+# Content
+/^Received:/ IGNORE
+/^User-Agent:/ IGNORE
+/^X-Mailer:/ IGNORE
+/^X-Originating-IP:/ IGNORE
+/^x-cr-[a-z]*:/ IGNORE
+/^Thread-Index:/ IGNORE
+

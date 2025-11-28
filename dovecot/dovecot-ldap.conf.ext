@@ -1,0 +1,28 @@
+uris = ldaps://ad-local.f88.lab:636
+tls_ca_cert_file = /usr/local/share/ca-certificates/ad-ca.crt
+dn = CN=keycloak,CN=Users,DC=f88,DC=lab
+dnpass = admin@123
+base = DC=f88,DC=lab
+scope = subtree
+deref = never
+
+ldap_version = 3
+auth_bind = yes
+auth_bind_userdn = %u
+
+#iterate_attrs = userPrincipalName=user
+#iterate_filter = (&(userPrincipalName=*)(objectClass=person)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))
+iterate_attrs = sAMAccountName=%n
+iterate_filter = (&(objectClass=user)(sAMAccountName=%n)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))
+
+user_attrs = username
+user_filter = (&(objectClass=user)(sAMAccountName=%n)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))
+#user_attrs = userPrincipalName=user
+#user_filter = (&(userPrincipalName=*)(objectClass=person)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))
+
+pass_attrs = userPassword
+pass_filter = (&(objectClass=user)(sAMAccountName=%n)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))
+#pass_filter = (&(userPrincipalName=*)(objectClass=person)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))
+
+default_pass_scheme = CRYPT
+debug_level = 1

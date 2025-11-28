@@ -1,0 +1,11 @@
+server_host = ldaps://ad-local.f88.lab:636
+server_port = 636
+version = 3
+bind = yes
+bind_dn = CN=keycloak,CN=Users,DC=f88,DC=lab
+bind_pw = admin@123
+search_base = DC=f88,DC=lab
+scope = sub
+query_filter = (&(objectClass=user)(sAMAccountName=*))
+result_attribute = sAMAccountName
+debuglevel = 0

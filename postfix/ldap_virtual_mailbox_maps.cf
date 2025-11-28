@@ -1,0 +1,13 @@
+server_host = ldaps://ad-local.f88.lab:636
+server_port = 636
+version = 3
+bind = yes
+bind_dn = CN=keycloak,CN=Users,DC=f88,DC=lab
+bind_pw = admin@123
+search_base = DC=f88,DC=lab
+query_filter = (&(objectClass=user)(sAMAccountName=*))
+result_attribute = userPrincipalName
+result_format = %d/%u/Maildir/
+ldap_tls_ca_file = /usr/local/share/ca-certificates/ad-ca.crt
+scope = sub
+debuglevel = 0
